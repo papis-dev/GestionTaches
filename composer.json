@@ -1,0 +1,14 @@
+{
+    "name": "elhadjiamadou/gestion-taches",
+    "autoload": {
+        "psr-4": {
+            "Elhadjiamadou\\GestionTaches\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "El Hadji Amadou"
+        }
+    ],
+    "require": {}
+}
