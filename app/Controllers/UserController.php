@@ -36,7 +36,7 @@ class UserController {
             if ($user) {
                 $_SESSION["user_id"] = $user["id"];
                 $_SESSION["user_name"] = $user["name"];
-                header("Location: index.php?action=task");
+                header("Location: index.php?action=tasks");
                 exit();
             } else {
                 echo "Email ou mot de passe incorrect.";

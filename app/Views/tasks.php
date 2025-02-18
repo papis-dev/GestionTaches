@@ -1,31 +1,32 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Tâches</title>
-</head>
-<body>
-    <h1>Liste des Tâches</h1>
+<?php if (!isset($_SESSION['user_id'])): ?>
+    <p>Veuillez vous connecter pour voir vos tâches.</p>
+    <a href="login.php">Se connecter</a>
+<?php else: ?>
+    <h1>Mes Tâches</h1>
     
+    <!-- Ajouter une nouvelle tâche -->
     <form action="tasks.php?action=add" method="POST">
         <input type="text" name="title" placeholder="Titre de la tâche" required>
-        <textarea name="description" placeholder="Description" required></textarea>
-        <button type="submit">Ajouter la tâche</button>
+        <textarea name="description" placeholder="Description de la tâche" required></textarea>
+        <button type="submit">Ajouter</button>
     </form>
 
-    <h2>Tâches en cours</h2>
+    <!-- Liste des tâches -->
     <ul>
         <?php foreach ($tasks as $task): ?>
             <li>
-                <strong><?= htmlspecialchars($task['title']) ?></strong> - <?= htmlspecialchars($task['description']) ?>
-                (<?= $task['status'] ?>)
-                <a href="tasks.php?action=update&task_id=<?= $task['id'] ?>&status=completed">Terminer</a>
-                <a href="tasks.php?action=delete&task_id=<?= $task['id'] ?>">Supprimer</a>
+                <strong><?php echo htmlspecialchars($task['title']); ?></strong><br>
+                <?php echo htmlspecialchars($task['description']); ?><br>
+                <em>Status: <?php echo htmlspecialchars($task['status']); ?></em><br>
+                
+                <?php if ($task['status'] == 'pending'): ?>
+                    <a href="tasks.php?action=complete&task_id=<?php echo $task['id']; ?>">Terminer</a>
+                <?php else: ?>
+                    <span>Terminé</span>
+                <?php endif; ?>
+
+                <a href="tasks.php?action=delete&task_id=<?php echo $task['id']; ?>">Supprimer</a>
             </li>
         <?php endforeach; ?>
     </ul>
-
-    <a href="logout.php">Se déconnecter</a>
-</body>
-</html>
+<?php endif; ?>

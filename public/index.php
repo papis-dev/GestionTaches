@@ -17,7 +17,10 @@ if ($action == 'register') {
 
 if ($action == 'register') {
     require_once '../app/Views/register.php';
-} else {
+} else if ($action == 'login') {
     require_once '../app/Views/login.php';
+}
+else{
+    require_once '../app/Views/tasks.php';
 }
 ?>

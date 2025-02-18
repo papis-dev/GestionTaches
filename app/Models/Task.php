@@ -1,5 +1,4 @@
 <?php
-
 namespace app\Models;
 
 class Task {
@@ -9,22 +8,26 @@ class Task {
         $this->pdo = $pdo;
     }
 
+    // Récupérer toutes les tâches pour un utilisateur
     public function getAllTasks($userId) {
-        $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE user_id = ? ORDER BY created_at DESC");
+        $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE user_id = ?");
         $stmt->execute([$userId]);
         return $stmt->fetchAll();
     }
 
+    // Ajouter une nouvelle tâche
     public function addTask($userId, $title, $description) {
-        $stmt = $this->pdo->prepare("INSERT INTO tasks (user_id, title, description) VALUES (?, ?, ?)");
+        $stmt = $this->pdo->prepare("INSERT INTO tasks (user_id, title, description, status, created_at) VALUES (?, ?, ?, 'pending', NOW())");
         return $stmt->execute([$userId, $title, $description]);
     }
 
-    public function updateTaskStatus($taskId, $status) {
-        $stmt = $this->pdo->prepare("UPDATE tasks SET status = ? WHERE id = ?");
-        return $stmt->execute([$status, $taskId]);
+    // Marquer une tâche comme terminée
+    public function completeTask($taskId) {
+        $stmt = $this->pdo->prepare("UPDATE tasks SET status = 'completed' WHERE id = ?");
+        return $stmt->execute([$taskId]);
     }
 
+    // Supprimer une tâche
     public function deleteTask($taskId) {
         $stmt = $this->pdo->prepare("DELETE FROM tasks WHERE id = ?");
         return $stmt->execute([$taskId]);
